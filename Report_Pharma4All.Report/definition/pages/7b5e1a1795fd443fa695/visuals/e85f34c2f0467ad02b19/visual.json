@@ -1,0 +1,195 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "e85f34c2f0467ad02b19",
+  "position": {
+    "x": 406.25,
+    "y": 450,
+    "z": 5000,
+    "height": 246.25,
+    "width": 212.5,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "In the selected period  and for the selected district(s) total sales reached ",
+                    "textStyle": {
+                      "fontFamily": "DIN Light",
+                      "fontSize": "20pt"
+                    }
+                  },
+                  {
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "Sales"
+                      }
+                    },
+                    "textStyle": {
+                      "fontFamily": "DIN Light",
+                      "fontSize": "20pt"
+                    }
+                  },
+                  {
+                    "value": " and the total quantity of products sold was of ",
+                    "textStyle": {
+                      "fontFamily": "DIN Light",
+                      "fontSize": "20pt"
+                    }
+                  },
+                  {
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "quantity"
+                      }
+                    },
+                    "textStyle": {
+                      "fontFamily": "DIN Light",
+                      "fontSize": "20pt"
+                    }
+                  },
+                  {
+                    "value": ".",
+                    "textStyle": {
+                      "fontFamily": "DIN Light",
+                      "fontSize": "20pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "expr": {
+              "expr": {
+                "Min": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "Subquery": {
+                          "Query": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "_",
+                                "Entity": "_Measures",
+                                "Type": 0
+                              }
+                            ],
+                            "Select": [
+                              {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "_"
+                                    }
+                                  },
+                                  "Property": "Total Quantity"
+                                },
+                                "Name": "_Measures.Total Quantity"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "Property": "_Measures.Total Quantity"
+                    }
+                  },
+                  "IncludeAllTypes": 1
+                },
+                "Annotations": {
+                  "NaturalLanguage": {
+                    "version": 1,
+                    "kind": "NaturalLanguage",
+                    "annotation": {
+                      "name": "quantity",
+                      "utterance": "total quantity"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "quantity"
+          }
+        },
+        {
+          "properties": {
+            "expr": {
+              "expr": {
+                "Min": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "Subquery": {
+                          "Query": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "_",
+                                "Entity": "_Measures",
+                                "Type": 0
+                              }
+                            ],
+                            "Select": [
+                              {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "_"
+                                    }
+                                  },
+                                  "Property": "Total Sales Amount"
+                                },
+                                "Name": "_Measures.Total Sales Amount"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "Property": "_Measures.Total Sales Amount"
+                    }
+                  },
+                  "IncludeAllTypes": 1
+                },
+                "Annotations": {
+                  "NaturalLanguage": {
+                    "version": 1,
+                    "kind": "NaturalLanguage",
+                    "annotation": {
+                      "name": "Sales",
+                      "utterance": "sales amount"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Sales"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

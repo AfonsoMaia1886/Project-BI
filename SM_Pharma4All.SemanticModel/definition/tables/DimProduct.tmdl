@@ -1,0 +1,116 @@
+table DimProduct
+	lineageTag: 780a827d-513f-4694-aad6-2dc0be761bb5
+	sourceLineageTag: [dwh].[DimProduct]
+
+	column SK_Product
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: b93d969f-b15c-4a50-9b11-015965d2e804
+		sourceLineageTag: SK_Product
+		summarizeBy: none
+		sourceColumn: SK_Product
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CNP
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: abfdd8b0-9035-4d97-974d-3fb2926b6706
+		sourceLineageTag: CNP
+		summarizeBy: none
+		sourceColumn: CNP
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 71f173e8-704a-4473-8476-156fbb318059
+		sourceLineageTag: ProductName
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Manufacturer
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 64af4440-5dbb-4a08-b6b6-bb37fb532465
+		sourceLineageTag: Manufacturer
+		summarizeBy: none
+		sourceColumn: Manufacturer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 19b05740-cce6-472f-bf24-3c3c5aeea11b
+		sourceLineageTag: Brand
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductPresentation
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: b10e6902-bfed-4c60-8e5f-75b8d218fc6f
+		sourceLineageTag: ProductPresentation
+		summarizeBy: none
+		sourceColumn: ProductPresentation
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsGeneric
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: cdb680b7-b2b5-44d2-bef2-376eb69cd978
+		sourceLineageTag: IsGeneric
+		summarizeBy: none
+		sourceColumn: IsGeneric
+
+		annotation SummarizationSetBy = Automatic
+
+	column GenericLabel
+		dataType: string
+		sourceProviderType: varchar(20)
+		lineageTag: 681bf84a-a35b-4301-b3e0-0e6c0b87f3fe
+		sourceLineageTag: GenericLabel
+		summarizeBy: none
+		sourceColumn: GenericLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Product Hierarchy'
+		lineageTag: 6d14fd83-be4b-4805-b9e8-949963221a7e
+
+		level Manufacturer
+			lineageTag: 810d8c08-13c9-428e-8c85-95685e1f8129
+			column: Manufacturer
+
+		level Brand
+			lineageTag: a94e7310-56ef-4a97-858f-5e05e0103631
+			column: Brand
+
+		level ProductName
+			lineageTag: a38735c5-3e2a-439d-9d71-789d0e212f29
+			column: ProductName
+
+		changedProperty = Name
+
+	partition DimProduct = entity
+		mode: directLake
+		source
+			entityName: DimProduct
+			schemaName: dwh
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "87f78ba73964ec094447",
+  "position": {
+    "x": 0,
+    "y": 475,
+    "z": 3000,
+    "height": 231.66666666666669,
+    "width": 621.66666666666674,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PharmacySegmentation"
+                    }
+                  },
+                  "Property": "PharmacyName"
+                }
+              },
+              "queryRef": "PharmacySegmentation.PharmacyName",
+              "nativeQueryRef": "PharmacyName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PharmacySegmentation"
+                    }
+                  },
+                  "Property": "SegmentLabel"
+                }
+              },
+              "queryRef": "PharmacySegmentation.SegmentLabel",
+              "nativeQueryRef": "SegmentLabel"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total Quantity"
+                }
+              },
+              "queryRef": "_Measures.Total Quantity",
+              "nativeQueryRef": "Total Quantity"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total Sales Amount"
+                }
+              },
+              "queryRef": "_Measures.Total Sales Amount",
+              "nativeQueryRef": "Total Sales Amount"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

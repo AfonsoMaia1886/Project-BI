@@ -1,0 +1,213 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "d4cf12f30f265cb8dc40",
+  "position": {
+    "x": 0,
+    "y": 150,
+    "z": 1000,
+    "height": 290,
+    "width": 401,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimLocation"
+                        }
+                      },
+                      "Hierarchy": "Location Hierarchy"
+                    }
+                  },
+                  "Level": "District"
+                }
+              },
+              "queryRef": "DimLocation.Location Hierarchy.District",
+              "nativeQueryRef": "Location Hierarchy District",
+              "active": false
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DimLocation"
+                        }
+                      },
+                      "Hierarchy": "Location Hierarchy"
+                    }
+                  },
+                  "Level": "Municipality"
+                }
+              },
+              "queryRef": "DimLocation.Location Hierarchy.Municipality",
+              "nativeQueryRef": "Location Hierarchy Municipality",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total Sales Amount"
+                }
+              },
+              "queryRef": "_Measures.Total Sales Amount",
+              "nativeQueryRef": "Total Sales Amount",
+              "displayName": "Total Sales Amount"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Total Sales Amount"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Total Sales Amount by Municipality'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5496c90901ea1212da2a",
+        "field": {
+          "HierarchyLevel": {
+            "Expression": {
+              "Hierarchy": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimLocation"
+                  }
+                },
+                "Hierarchy": "Location Hierarchy"
+              }
+            },
+            "Level": "District"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4563ae5c90ea082ece37",
+        "field": {
+          "HierarchyLevel": {
+            "Expression": {
+              "Hierarchy": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimLocation"
+                  }
+                },
+                "Hierarchy": "Location Hierarchy"
+              }
+            },
+            "Level": "Municipality"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a1903a9c24eabb36e0ca",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Total Sales Amount"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

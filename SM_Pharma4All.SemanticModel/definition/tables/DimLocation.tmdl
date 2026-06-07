@@ -1,0 +1,83 @@
+table DimLocation
+	lineageTag: af77e08a-f6f1-4fe0-b176-3316b0a9ff98
+	sourceLineageTag: [dwh].[DimLocation]
+
+	column SK_Location
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: bffb6e52-6814-49bd-ad81-ea4e21c51d3a
+		sourceLineageTag: SK_Location
+		summarizeBy: none
+		sourceColumn: SK_Location
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Municipality
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 82836aa3-9062-44d7-925c-bb243787124f
+		sourceLineageTag: Municipality
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: Municipality
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 2a840d42-e474-423f-95ef-95b8128826ee
+		sourceLineageTag: District
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: District
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 2005a5dd-ad24-4f1c-bc02-5281b573ec2d
+		sourceLineageTag: Country
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Location Hierarchy'
+		lineageTag: cb64cc21-431b-4352-aba1-0a1a886b3376
+
+		level Country
+			lineageTag: fbb5b090-6c79-4e48-b7f0-0648cd4b5df8
+			column: Country
+
+		level District
+			lineageTag: 06a0148e-c0a4-4665-9e97-f076abd282aa
+			column: District
+
+		level Municipality
+			lineageTag: f6ad68b7-ed7b-4363-9078-5d23b8d2ba6c
+			column: Municipality
+
+		changedProperty = Name
+
+	partition DimLocation = entity
+		mode: directLake
+		source
+			entityName: DimLocation
+			schemaName: dwh
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

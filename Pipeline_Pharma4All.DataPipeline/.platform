@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "Pipeline_Pharma4All"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6229bcc9-9f7e-8c38-4fbb-49b1beebaa36"
+  }
+}

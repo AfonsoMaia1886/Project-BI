@@ -1,0 +1,37 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "DF_02_Load_FactSales",
+  "queryGroups": [],
+  "documentLocale": "pt-BR",
+  "queriesMetadata": {
+    "DimProduct": {
+      "queryId": "b012cbcd-2f16-43cf-8289-ed603dde553a",
+      "queryName": "DimProduct"
+    },
+    "FactSales": {
+      "queryId": "5747c267-f638-491a-9e54-54183c7bf2d7",
+      "queryName": "FactSales"
+    },
+    "FactSales_DataDestination": {
+      "queryId": "4ab59723-e414-45ae-adb0-088c37a3bf2c",
+      "queryName": "FactSales_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"abb8825f-5935-41f4-b7c5-f62d6aaed810\",\"DatasourceId\":\"45e2f341-2f4f-4046-be84-ca65710d915c\"}"
+    },
+    {
+      "path": "Warehouse",
+      "kind": "Warehouse",
+      "connectionId": "{\"ClusterId\":\"abb8825f-5935-41f4-b7c5-f62d6aaed810\",\"DatasourceId\":\"b1fe9785-8b19-4c80-ac41-d1f8c9542026\"}"
+    }
+  ]
+}

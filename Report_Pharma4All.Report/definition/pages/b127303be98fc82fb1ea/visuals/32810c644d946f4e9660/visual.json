@@ -1,0 +1,90 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "32810c644d946f4e9660",
+  "position": {
+    "x": 0,
+    "y": 149,
+    "z": 2000,
+    "height": 326,
+    "width": 622,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PharmacySegmentation"
+                    }
+                  },
+                  "Property": "SegmentLabel"
+                }
+              },
+              "queryRef": "PharmacySegmentation.SegmentLabel",
+              "nativeQueryRef": "SegmentLabel"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PharmacySegmentation"
+                    }
+                  },
+                  "Property": "PCA1"
+                }
+              },
+              "queryRef": "PharmacySegmentation.PCA1",
+              "nativeQueryRef": "PCA1",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PharmacySegmentation"
+                    }
+                  },
+                  "Property": "PCA2"
+                }
+              },
+              "queryRef": "PharmacySegmentation.PCA2",
+              "nativeQueryRef": "PCA2"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Pharmacy Clustering by Segment (PCA)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

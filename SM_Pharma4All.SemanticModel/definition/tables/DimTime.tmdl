@@ -1,0 +1,69 @@
+table DimTime
+	lineageTag: b31b55bc-ef82-4c16-bda4-906a383312b9
+	sourceLineageTag: [dwh].[DimTime]
+
+	column SK_Time
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: c784814b-aa50-4fd1-a770-78400056616d
+		sourceLineageTag: SK_Time
+		summarizeBy: none
+		sourceColumn: SK_Time
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		sourceProviderType: smallint
+		lineageTag: 219bf072-0d78-438a-af71-dc84111d7c6b
+		sourceLineageTag: Hour
+		summarizeBy: none
+		sourceColumn: Hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column Minute
+		dataType: int64
+		formatString: 0
+		sourceProviderType: smallint
+		lineageTag: 7222063d-4f18-4497-ad20-bd35b6e58977
+		sourceLineageTag: Minute
+		summarizeBy: none
+		sourceColumn: Minute
+
+		annotation SummarizationSetBy = Automatic
+
+	column TimeLabel
+		dataType: string
+		sourceProviderType: varchar(5)
+		lineageTag: 74fc6063-8619-4a0a-b0e6-4e30ff4dfd55
+		sourceLineageTag: TimeLabel
+		summarizeBy: none
+		sourceColumn: TimeLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayPeriod
+		dataType: string
+		sourceProviderType: varchar(15)
+		lineageTag: 05754be7-8939-4440-8fa4-42cd99d196ad
+		sourceLineageTag: DayPeriod
+		summarizeBy: none
+		sourceColumn: DayPeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimTime = entity
+		mode: directLake
+		source
+			entityName: DimTime
+			schemaName: dwh
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

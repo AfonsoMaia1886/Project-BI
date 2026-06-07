@@ -1,0 +1,781 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "fc893136-d247-aaf0-424c-c74c09081e2c",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Dimensions",
+        "dependsOn": [
+          {
+            "activity": "SQL_Check_Tables_Empty",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "34f7c3d8-ff57-9652-42a1-226e5843e68e",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "FactSales",
+        "dependsOn": [
+          {
+            "activity": "SQL_Validate_Dimensions",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "DELETE FROM dwh.FactSales;",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Delete_Facts",
+        "dependsOn": []
+      },
+      {
+        "type": "Wait",
+        "typeProperties": {
+          "waitTimeInSeconds": 1
+        },
+        "name": "Wait1",
+        "dependsOn": [
+          {
+            "activity": "SQL_Delete_Facts",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "DELETE FROM dwh.DimPharmacy\nDELETE FROM dwh.DimProduct;\nDELETE FROM dwh.DimLocation;\nDELETE FROM dwh.DimOperator;\nDELETE FROM dwh.DimPOS;\nDELETE FROM dwh.DimTime;\nDELETE FROM dwh.DimDate;",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Delete_Dimensions",
+        "dependsOn": [
+          {
+            "activity": "Wait1",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "SELECT\n    (SELECT COUNT(*) FROM dwh.FactSales) AS FactSalesRows,\n    (SELECT COUNT(*) FROM dwh.DimDate) AS DimDateRows,\n    (SELECT COUNT(*) FROM dwh.DimTime) AS DimTimeRows,\n    (SELECT COUNT(*) FROM dwh.DimProduct) AS DimProductRows,\n    (SELECT COUNT(*) FROM dwh.DimLocation) AS DimLocationRows,\n    (SELECT COUNT(*) FROM dwh.DimPharmacy) AS DimPharmacyRows,\n    (SELECT COUNT(*) FROM dwh.DimOperator) AS DimOperatorRows,\n    (SELECT COUNT(*) FROM dwh.DimPOS) AS DimPOSRows;",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Check_Tables_Empty",
+        "dependsOn": [
+          {
+            "activity": "SQL_Delete_Dimensions",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "SELECT\n    (SELECT COUNT(*) FROM dwh.DimDate) AS DimDateRows,\n    (SELECT COUNT(*) FROM dwh.DimTime) AS DimTimeRows,\n    (SELECT COUNT(*) FROM dwh.DimProduct) AS DimProductRows,\n    (SELECT COUNT(*) FROM dwh.DimLocation) AS DimLocationRows,\n    (SELECT COUNT(*) FROM dwh.DimPharmacy) AS DimPharmacyRows,\n    (SELECT COUNT(*) FROM dwh.DimOperator) AS DimOperatorRows,\n    (SELECT COUNT(*) FROM dwh.DimPOS) AS DimPOSRows;",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Validate_Dimensions",
+        "dependsOn": [
+          {
+            "activity": "Dimensions",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "SELECT\n    COUNT(*) AS FactSalesRows,\n    SUM(Qty) AS TotalQuantity,\n    SUM(Amount) AS TotalAmount,\n    MIN(SourceSaleDateTime) AS FirstSaleDateTime,\n    MAX(SourceSaleDateTime) AS LastSaleDateTime\nFROM dwh.FactSales;",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Validate_FactSales",
+        "dependsOn": [
+          {
+            "activity": "FactSales",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "57b930b8-7fca-b317-4bc8-eb2954c4fb9c",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Predictive_Analysis",
+        "dependsOn": [
+          {
+            "activity": "SQL_Validate_FactSales",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "TRUNCATE TABLE dwh.PharmacySegmentation;",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Truncate_PharmacySegmentation",
+        "dependsOn": [
+          {
+            "activity": "Predictive_Analysis",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "SELECT \r\n    'Row Count' AS ValidationType,\r\n    'DimDate' AS TableName,\r\n    COUNT(*) AS ResultValue,\r\n    'Should be > 0' AS ExpectedResult\r\nFROM dwh.DimDate\r\n\r\nUNION ALL\r\nSELECT 'Row Count', 'DimTime', COUNT(*), 'Should be > 0'\r\nFROM dwh.DimTime\r\n\r\nUNION ALL\r\nSELECT 'Row Count', 'DimProduct', COUNT(*), 'Should be > 0'\r\nFROM dwh.DimProduct\r\n\r\nUNION ALL\r\nSELECT 'Row Count', 'DimPharmacy', COUNT(*), 'Should be > 0'\r\nFROM dwh.DimPharmacy\r\n\r\nUNION ALL\r\nSELECT 'Row Count', 'DimLocation', COUNT(*), 'Should be > 0'\r\nFROM dwh.DimLocation\r\n\r\nUNION ALL\r\nSELECT 'Row Count', 'DimOperator', COUNT(*), 'Should be > 0'\r\nFROM dwh.DimOperator\r\n\r\nUNION ALL\r\nSELECT 'Row Count', 'DimPOS', COUNT(*), 'Should be > 0'\r\nFROM dwh.DimPOS\r\n\r\nUNION ALL\r\nSELECT 'Row Count', 'FactSales', COUNT(*), 'Should be > 0'\r\nFROM dwh.FactSales\r\n\r\nUNION ALL\r\nSELECT 'Row Count', 'PharmacySegmentation', COUNT(*), 'Should be > 0'\r\nFROM dwh.PharmacySegmentation;\r\n\r\n\r\nSELECT \r\n    'FactSales Null Check' AS ValidationType,\r\n    'Missing FK_Date' AS CheckName,\r\n    COUNT(*) AS ResultValue,\r\n    'Should be 0' AS ExpectedResult\r\nFROM dwh.FactSales\r\nWHERE FK_Date IS NULL\r\n\r\nUNION ALL\r\nSELECT 'FactSales Null Check', 'Missing FK_Time', COUNT(*), 'Should be 0'\r\nFROM dwh.FactSales\r\nWHERE FK_Time IS NULL\r\n\r\nUNION ALL\r\nSELECT 'FactSales Null Check', 'Missing FK_Product', COUNT(*), 'Should be 0'\r\nFROM dwh.FactSales\r\nWHERE FK_Product IS NULL\r\n\r\nUNION ALL\r\nSELECT 'FactSales Null Check', 'Missing FK_Pharmacy', COUNT(*), 'Should be 0'\r\nFROM dwh.FactSales\r\nWHERE FK_Pharmacy IS NULL\r\n\r\nUNION ALL\r\nSELECT 'FactSales Null Check', 'Missing FK_Location', COUNT(*), 'Should be 0'\r\nFROM dwh.FactSales\r\nWHERE FK_Location IS NULL\r\n\r\nUNION ALL\r\nSELECT 'FactSales Null Check', 'Missing FK_Operator', COUNT(*), 'Should be 0'\r\nFROM dwh.FactSales\r\nWHERE FK_Operator IS NULL\r\n\r\nUNION ALL\r\nSELECT 'FactSales Null Check', 'Missing FK_POS', COUNT(*), 'Should be 0'\r\nFROM dwh.FactSales\r\nWHERE FK_POS IS NULL\r\n\r\nUNION ALL\r\nSELECT 'FactSales Null Check', 'Missing Qty', COUNT(*), 'Should be 0'\r\nFROM dwh.FactSales\r\nWHERE Qty IS NULL\r\n\r\nUNION ALL\r\nSELECT 'FactSales Null Check', 'Missing Amount', COUNT(*), 'Should be 0'\r\nFROM dwh.FactSales\r\nWHERE Amount IS NULL;\r\n\r\n\r\n\r\nSELECT \r\n    'Notebook Output Check' AS ValidationType,\r\n    'Segmentation rows' AS CheckName,\r\n    COUNT(*) AS ResultValue,\r\n    'Should be > 0' AS ExpectedResult\r\nFROM dwh.PharmacySegmentation\r\n\r\nUNION ALL\r\nSELECT \r\n    'Notebook Output Check',\r\n    'Distinct pharmacies segmented',\r\n    COUNT(DISTINCT PharmacyID),\r\n    'Should match number of pharmacies used in the model'\r\nFROM dwh.PharmacySegmentation\r\n\r\nUNION ALL\r\nSELECT \r\n    'Notebook Output Check',\r\n    'Missing segment labels',\r\n    COUNT(*),\r\n    'Should be 0'\r\nFROM dwh.PharmacySegmentation\r\nWHERE SegmentLabel IS NULL;",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Validation_Counts",
+        "dependsOn": [
+          {
+            "activity": "Copy_PharmacySegmentation_to_Warehouse",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "ParquetSource",
+            "storeSettings": {
+              "type": "AzureBlobStorageReadSettings",
+              "recursive": true,
+              "enablePartitionDiscovery": false
+            },
+            "formatSettings": {
+              "type": "ParquetReadSettings"
+            },
+            "datasetSettings": {
+              "type": "Parquet",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "advanced_analytics",
+                  "fileName": "PharmacySegmentation.parquet"
+                },
+                "compressionCodec": "snappy"
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "LH_Pharma4All",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "5d913510-3b46-834e-4fde-ba06b90961d6",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "externalReferences": {
+                    "connection": "45e2f341-2f4f-4046-be84-ca65710d915c"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "DataWarehouseSink",
+            "allowCopyCommand": true,
+            "copyCommandSettings": {},
+            "writeBehavior": "Insert",
+            "datasetSettings": {
+              "type": "DataWarehouseTable",
+              "typeProperties": {
+                "schema": "dwh",
+                "table": "PharmacySegmentation"
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "WH_Pharma4All",
+                "properties": {
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+                    "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+                    "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+                  },
+                  "externalReferences": {
+                    "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "PharmacyID",
+                  "type": "Int64",
+                  "physicalType": "INT64"
+                },
+                "sink": {
+                  "name": "PharmacyID",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "PharmacyName",
+                  "type": "String",
+                  "physicalType": "STRING"
+                },
+                "sink": {
+                  "name": "PharmacyName",
+                  "physicalType": "varchar",
+                  "length": "255"
+                }
+              },
+              {
+                "source": {
+                  "name": "LocationCode",
+                  "type": "String",
+                  "physicalType": "STRING"
+                },
+                "sink": {
+                  "name": "LocationCode",
+                  "physicalType": "varchar",
+                  "length": "50"
+                }
+              },
+              {
+                "source": {
+                  "name": "LocationName",
+                  "type": "String",
+                  "physicalType": "STRING"
+                },
+                "sink": {
+                  "name": "LocationName",
+                  "physicalType": "varchar",
+                  "length": "255"
+                }
+              },
+              {
+                "source": {
+                  "name": "District",
+                  "type": "String",
+                  "physicalType": "STRING"
+                },
+                "sink": {
+                  "name": "District",
+                  "physicalType": "varchar",
+                  "length": "100"
+                }
+              },
+              {
+                "source": {
+                  "name": "Country",
+                  "type": "String",
+                  "physicalType": "STRING"
+                },
+                "sink": {
+                  "name": "Country",
+                  "physicalType": "varchar",
+                  "length": "100"
+                }
+              },
+              {
+                "source": {
+                  "name": "TotalSalesAmount",
+                  "type": "Double",
+                  "physicalType": "DOUBLE"
+                },
+                "sink": {
+                  "name": "TotalSalesAmount",
+                  "physicalType": "float"
+                }
+              },
+              {
+                "source": {
+                  "name": "TotalQuantity",
+                  "type": "Int64",
+                  "physicalType": "INT64"
+                },
+                "sink": {
+                  "name": "TotalQuantity",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "NumberOfTransactions",
+                  "type": "Int64",
+                  "physicalType": "INT64"
+                },
+                "sink": {
+                  "name": "NumberOfTransactions",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "AvgTransactionAmount",
+                  "type": "Double",
+                  "physicalType": "DOUBLE"
+                },
+                "sink": {
+                  "name": "AvgTransactionAmount",
+                  "physicalType": "float"
+                }
+              },
+              {
+                "source": {
+                  "name": "ProductVariety",
+                  "type": "Int64",
+                  "physicalType": "INT64"
+                },
+                "sink": {
+                  "name": "ProductVariety",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "ManufacturerVariety",
+                  "type": "Int64",
+                  "physicalType": "INT64"
+                },
+                "sink": {
+                  "name": "ManufacturerVariety",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "BrandVariety",
+                  "type": "Int64",
+                  "physicalType": "INT64"
+                },
+                "sink": {
+                  "name": "BrandVariety",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "MonthlySalesIntensity",
+                  "type": "Double",
+                  "physicalType": "DOUBLE"
+                },
+                "sink": {
+                  "name": "MonthlySalesIntensity",
+                  "physicalType": "float"
+                }
+              },
+              {
+                "source": {
+                  "name": "BrandedSalesShare",
+                  "type": "Double",
+                  "physicalType": "DOUBLE"
+                },
+                "sink": {
+                  "name": "BrandedSalesShare",
+                  "physicalType": "float"
+                }
+              },
+              {
+                "source": {
+                  "name": "GenericSalesShare",
+                  "type": "Double",
+                  "physicalType": "DOUBLE"
+                },
+                "sink": {
+                  "name": "GenericSalesShare",
+                  "physicalType": "float"
+                }
+              },
+              {
+                "source": {
+                  "name": "RecencyDays",
+                  "type": "Int64",
+                  "physicalType": "INT64"
+                },
+                "sink": {
+                  "name": "RecencyDays",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "ClusterID",
+                  "type": "Int64",
+                  "physicalType": "INT64"
+                },
+                "sink": {
+                  "name": "ClusterID",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "SegmentRank",
+                  "type": "Int64",
+                  "physicalType": "INT64"
+                },
+                "sink": {
+                  "name": "SegmentRank",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "SegmentLabel",
+                  "type": "String",
+                  "physicalType": "STRING"
+                },
+                "sink": {
+                  "name": "SegmentLabel",
+                  "physicalType": "varchar",
+                  "length": "100"
+                }
+              },
+              {
+                "source": {
+                  "name": "SegmentDescription",
+                  "type": "String",
+                  "physicalType": "STRING"
+                },
+                "sink": {
+                  "name": "SegmentDescription",
+                  "physicalType": "varchar",
+                  "length": "500"
+                }
+              },
+              {
+                "source": {
+                  "name": "PCA1",
+                  "type": "Double",
+                  "physicalType": "DOUBLE"
+                },
+                "sink": {
+                  "name": "PCA1",
+                  "physicalType": "float"
+                }
+              },
+              {
+                "source": {
+                  "name": "PCA2",
+                  "type": "Double",
+                  "physicalType": "DOUBLE"
+                },
+                "sink": {
+                  "name": "PCA2",
+                  "physicalType": "float"
+                }
+              },
+              {
+                "source": {
+                  "name": "ModelRunTimestamp",
+                  "type": "DateTime",
+                  "physicalType": "TIMESTAMP_MICROS"
+                },
+                "sink": {
+                  "name": "ModelRunDate",
+                  "physicalType": "date"
+                }
+              }
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_PharmacySegmentation_to_Warehouse",
+        "dependsOn": [
+          {
+            "activity": "SQL_Truncate_PharmacySegmentation",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

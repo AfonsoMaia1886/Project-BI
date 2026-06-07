@@ -1,0 +1,98 @@
+table DimOperator
+	lineageTag: 3cef75a5-2119-4d9e-963b-e6df84f6e208
+	sourceLineageTag: [dwh].[DimOperator]
+
+	column SK_Operator
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: e2d929f7-2973-4fc8-a18c-cdf0e6d24ff2
+		sourceLineageTag: SK_Operator
+		summarizeBy: none
+		sourceColumn: SK_Operator
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstName
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 65025eca-eb87-4337-b159-330a791fb79b
+		sourceLineageTag: FirstName
+		summarizeBy: none
+		sourceColumn: FirstName
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastName
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: bd2936b9-5e60-4b8c-a47d-5cfd954e8d30
+		sourceLineageTag: LastName
+		summarizeBy: none
+		sourceColumn: LastName
+
+		annotation SummarizationSetBy = Automatic
+
+	column FullName
+		dataType: string
+		sourceProviderType: varchar(200)
+		lineageTag: 9de07822-3b2d-4575-b157-5ad78508d808
+		sourceLineageTag: FullName
+		summarizeBy: none
+		sourceColumn: FullName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Email
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 83be7074-8a2f-475b-b29b-b211f37095a3
+		sourceLineageTag: Email
+		summarizeBy: none
+		sourceColumn: Email
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		sourceProviderType: varchar(20)
+		lineageTag: d3c74810-29dc-411d-9945-4cd3414240a4
+		sourceLineageTag: Gender
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Role
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: c0157632-fc70-4cac-a843-30cb03a42f19
+		sourceLineageTag: Role
+		summarizeBy: none
+		sourceColumn: Role
+
+		annotation SummarizationSetBy = Automatic
+
+	column Team
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: edceebf2-5082-41f4-b700-502eeb4b5442
+		sourceLineageTag: Team
+		summarizeBy: none
+		sourceColumn: Team
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimOperator = entity
+		mode: directLake
+		source
+			entityName: DimOperator
+			schemaName: dwh
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+
