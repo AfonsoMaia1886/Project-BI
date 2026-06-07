@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Warehouse",
+    "displayName": "WH_Pharma4All"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "785b3f85-2354-8ee0-4dbb-406e31a736e4"
+  }
+}

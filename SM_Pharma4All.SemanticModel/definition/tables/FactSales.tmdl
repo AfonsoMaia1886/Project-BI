@@ -1,0 +1,188 @@
+table FactSales
+	lineageTag: c764420e-1dba-4bf6-9def-39deb908331b
+	sourceLineageTag: [dwh].[FactSales]
+
+	column PK_SaleID
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 2627a80e-3d03-4ebf-b24f-c88b10d5d188
+		sourceLineageTag: PK_SaleID
+		summarizeBy: none
+		sourceColumn: PK_SaleID
+
+		changedProperty = SummarizeBy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column FK_Date
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 6d259a87-5ccb-449a-8275-de5a53725394
+		sourceLineageTag: FK_Date
+		summarizeBy: none
+		sourceColumn: FK_Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FK_Time
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 486addd3-0730-4c55-ae89-ab45296c1fd5
+		sourceLineageTag: FK_Time
+		summarizeBy: none
+		sourceColumn: FK_Time
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FK_Product
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: f0257b35-2ec8-45f3-8d6c-87b127b4fda6
+		sourceLineageTag: FK_Product
+		summarizeBy: none
+		sourceColumn: FK_Product
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FK_Pharmacy
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 6abf9234-797f-4304-987d-726e02974203
+		sourceLineageTag: FK_Pharmacy
+		summarizeBy: none
+		sourceColumn: FK_Pharmacy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FK_Location
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 1a2831a4-128a-412f-906e-010f1a7383aa
+		sourceLineageTag: FK_Location
+		summarizeBy: none
+		sourceColumn: FK_Location
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FK_Operator
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 04af4b15-93d6-460c-8b68-b497c89d4210
+		sourceLineageTag: FK_Operator
+		summarizeBy: none
+		sourceColumn: FK_Operator
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FK_POS
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 71aa7f89-896a-4a0c-a9b4-d0b5c3e4e26f
+		sourceLineageTag: FK_POS
+		summarizeBy: none
+		sourceColumn: FK_POS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Qty
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: ab1acb2b-7924-4cca-b175-607bc16ed3a8
+		sourceLineageTag: Qty
+		summarizeBy: sum
+		sourceColumn: Qty
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: a04a38f2-91b7-43ff-9e29-20ecd0ae1df9
+		sourceLineageTag: Amount
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CurrencyCode
+		dataType: string
+		isHidden
+		sourceProviderType: char
+		lineageTag: b2e53b4e-8139-4e03-933d-d3fdac38fe65
+		sourceLineageTag: CurrencyCode
+		summarizeBy: none
+		sourceColumn: CurrencyCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceSaleDateTime
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 8f8ffead-64e6-4c00-9a76-c91923836506
+		sourceLineageTag: SourceSaleDateTime
+		summarizeBy: none
+		sourceColumn: SourceSaleDateTime
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadDateTime
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: b29820a2-0134-4f70-bdcc-e9b13a6b3ff2
+		sourceLineageTag: LoadDateTime
+		summarizeBy: none
+		sourceColumn: LoadDateTime
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSales = entity
+		mode: directLake
+		source
+			entityName: FactSales
+			schemaName: dwh
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

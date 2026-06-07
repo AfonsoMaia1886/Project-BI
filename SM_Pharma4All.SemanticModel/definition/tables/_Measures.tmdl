@@ -1,0 +1,101 @@
+table _Measures
+	lineageTag: b6b5bb99-8d44-4696-be58-499c8bebccb9
+
+	measure 'Total Sales Amount' = SUM(FactSales[Amount])
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: 2005da61-f6d5-4a4e-8d2a-fa5ee954c290
+
+	measure 'Total Quantity' = SUM(FactSales[Qty])
+		formatString: #,0
+		lineageTag: 56086bb7-8b1f-4d70-b76c-8e983165b2f0
+
+	measure 'Sales Prior Period' =
+			
+			CALCULATE([Total Sales Amount], SAMEPERIODLASTYEAR(DimDate[FullDate]))
+		lineageTag: b2f29a51-5c59-451a-8f6d-247671724d56
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Growth Absolute' =
+			
+			[Total Sales Amount] - [Sales Prior Period]
+		lineageTag: 601c153d-caa7-4235-91e2-26538af7ca62
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Amount Share %' =
+			
+			VAR _MinDate = MIN(DateSlicer[FullDate])
+			VAR _MaxDate = MAX(DateSlicer[FullDate])
+			VAR _Numerator = [Total Sales Amount]
+			VAR _Denominator =
+			    CALCULATE(
+			        [Total Sales Amount],
+			        REMOVEFILTERS(),
+			        DimDate[FullDate] >= _MinDate
+			            && DimDate[FullDate] <= _MaxDate
+			    )
+			RETURN
+			    DIVIDE( _Numerator, _Denominator )
+		lineageTag: e3fad58a-dd2a-4f48-8eb9-f63a9d9923d0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantity Share %' =
+			
+			VAR _MinDate = MIN(DateSlicer[FullDate])
+			VAR _MaxDate = MAX(DateSlicer[FullDate])
+			VAR _Numerator = [Total Quantity]
+			VAR _Denominator =
+			    CALCULATE(
+			        [Total Quantity],
+			        REMOVEFILTERS(),
+			        DimDate[FullDate] >= _MinDate
+			            && DimDate[FullDate] <= _MaxDate
+			    )
+			RETURN
+			    DIVIDE( _Numerator, _Denominator )
+		lineageTag: 9031b02f-4fb9-42ba-8ca9-d7a86785a7e7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantity Growth Absolute' =
+			
+			[Total Quantity] - [Quantity Prior Period]
+		formatString: 0
+		lineageTag: d9c0fd59-679b-428b-8288-fa8c8c979550
+
+	measure 'Pharmacy Count' = DISTINCTCOUNT(DimPharmacy[SK_Pharmacy])
+		formatString: 0
+		lineageTag: ec81c12f-ca79-4b55-8d81-dce231c2d509
+
+	measure 'Dynamic Date Title' =
+			
+			VAR StartDate = FORMAT(MIN('DimDate'[FullDate]), "MM/yyyy")
+			VAR EndDate = FORMAT(MAX('DimDate'[FullDate]), "MM/yyyy")
+			RETURN
+			"Total Sales Amount (" & StartDate & " - " & EndDate & ")"
+		lineageTag: 1295a896-225e-4ca7-ab4f-4183f16feaf9
+
+	measure 'Quantity Prior Period' =
+			
+			CALCULATE([Total Quantity], SAMEPERIODLASTYEAR(DimDate[FullDate]))
+		formatString: 0
+		lineageTag: 4b96f597-8059-4f2e-b383-3674340a79dc
+
+	column x
+		isHidden
+		formatString: 0
+		lineageTag: 02de7888-1cd8-4f57-a3a4-679bed4e694b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [x]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW("x", 1)
+
+	annotation PBI_Id = 1c7446c9980f4b2b82955bd02f645610
+

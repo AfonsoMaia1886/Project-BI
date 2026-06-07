@@ -1,0 +1,27 @@
+CREATE TABLE [dwh].[PharmacySegmentation] (
+
+	[PharmacyID] bigint NOT NULL, 
+	[PharmacyName] varchar(255) NULL, 
+	[LocationCode] varchar(50) NULL, 
+	[LocationName] varchar(255) NULL, 
+	[District] varchar(100) NULL, 
+	[Country] varchar(100) NULL, 
+	[TotalSalesAmount] float NULL, 
+	[TotalQuantity] bigint NULL, 
+	[NumberOfTransactions] bigint NULL, 
+	[AvgTransactionAmount] float NULL, 
+	[ProductVariety] bigint NULL, 
+	[ManufacturerVariety] bigint NULL, 
+	[BrandVariety] bigint NULL, 
+	[MonthlySalesIntensity] float NULL, 
+	[BrandedSalesShare] float NULL, 
+	[GenericSalesShare] float NULL, 
+	[RecencyDays] bigint NULL, 
+	[ClusterID] bigint NULL, 
+	[SegmentRank] bigint NULL, 
+	[SegmentLabel] varchar(100) NULL, 
+	[SegmentDescription] varchar(500) NULL, 
+	[PCA1] float NULL, 
+	[PCA2] float NULL, 
+	[ModelRunDate] date NULL
+);

@@ -1,0 +1,235 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "SELECT\n    LastSourceSaleDateTime,\n    LastSaleID\nFROM etl.Watermark\nWHERE ProcessName = 'Load_FactSales';",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Get_Watermark",
+        "dependsOn": []
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "DELETE FROM stg.FactSales_IncrementalBatch;",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Clear_IncrementalBatch",
+        "dependsOn": [
+          {
+            "activity": "SQL_Get_Watermark",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "fc893136-d247-aaf0-424c-c74c09081e2c",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "DF_Refresh_Dimensions",
+        "description": "Refresh dimensions fully every time.\nAppend only new fact rows.",
+        "dependsOn": [
+          {
+            "activity": "SQL_Clear_IncrementalBatch",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "RefreshDataflow",
+        "typeProperties": {
+          "dataflowId": "309c0b51-cddc-8784-485c-4d13945715fb",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "notifyOption": "NoNotification",
+          "dataflowType": "DataflowFabric"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "DF_Load_New_FactSales",
+        "description": "SourceSaleDateTime > LastSourceSaleDateTime\nOR (\n    SourceSaleDateTime = LastSourceSaleDateTime\n    AND SaleID > LastSaleID\n)",
+        "dependsOn": [
+          {
+            "activity": "DF_Refresh_Dimensions",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "INSERT INTO dwh.FactSales\n(\n    PK_SaleID,\n    FK_Date,\n    FK_Time,\n    FK_Product,\n    FK_Pharmacy,\n    FK_Location,\n    FK_Operator,\n    FK_POS,\n    Qty,\n    Amount,\n    CurrencyCode,\n    SourceSaleDateTime,\n    LoadDateTime\n)\nSELECT\n    s.SaleID AS PK_SaleID,\n    s.FK_Date,\n    s.FK_Time,\n    s.FK_Product,\n    s.FK_Pharmacy,\n    s.FK_Location,\n    s.FK_Operator,\n    s.FK_POS,\n    s.Qty,\n    s.Amount,\n    s.CurrencyCode,\n    s.SourceSaleDateTime,\n    CURRENT_TIMESTAMP AS LoadDateTime\nFROM stg.FactSales_IncrementalBatch s\nWHERE s.SaleID >\n(\n    SELECT COALESCE(LastSaleID, 0)\n    FROM etl.Watermark\n    WHERE ProcessName = 'Load_FactSales'\n)\nAND NOT EXISTS\n(\n    SELECT 1\n    FROM dwh.FactSales f\n    WHERE f.PK_SaleID = s.SaleID\n)\nAND s.SaleID IS NOT NULL\nAND s.FK_Date IS NOT NULL\nAND s.FK_Time IS NOT NULL\nAND s.FK_Product IS NOT NULL\nAND s.FK_Pharmacy IS NOT NULL\nAND s.FK_Location IS NOT NULL\nAND s.FK_Operator IS NOT NULL\nAND s.FK_POS IS NOT NULL;",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Insert_Only_New_FactSales",
+        "dependsOn": [
+          {
+            "activity": "DF_Load_New_FactSales",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Script",
+        "typeProperties": {
+          "scripts": [
+            {
+              "text": {
+                "value": "INSERT INTO dwh.FactSales\n(\n    PK_SaleID,\n    FK_Date,\n    FK_Time,\n    FK_Product,\n    FK_Pharmacy,\n    FK_Location,\n    FK_Operator,\n    FK_POS,\n    Qty,\n    Amount,\n    CurrencyCode,\n    SourceSaleDateTime,\n    LoadDateTime\n)\nSELECT\n    s.SaleID AS PK_SaleID,\n    s.FK_Date,\n    s.FK_Time,\n    s.FK_Product,\n    s.FK_Pharmacy,\n    s.FK_Location,\n    s.FK_Operator,\n    s.FK_POS,\n    s.Qty,\n    s.Amount,\n    s.CurrencyCode,\n    s.SourceSaleDateTime,\n    CURRENT_TIMESTAMP AS LoadDateTime\nFROM stg.FactSales_IncrementalBatch s\nWHERE s.SaleID >\n(\n    SELECT COALESCE(LastSaleID, 0)\n    FROM etl.Watermark\n    WHERE ProcessName = 'Load_FactSales'\n)\nAND NOT EXISTS\n(\n    SELECT 1\n    FROM dwh.FactSales f\n    WHERE f.PK_SaleID = s.SaleID\n)\nAND s.SaleID IS NOT NULL\nAND s.FK_Date IS NOT NULL\nAND s.FK_Time IS NOT NULL\nAND s.FK_Product IS NOT NULL\nAND s.FK_Pharmacy IS NOT NULL\nAND s.FK_Location IS NOT NULL\nAND s.FK_Operator IS NOT NULL\nAND s.FK_POS IS NOT NULL;",
+                "type": "Expression"
+              },
+              "type": "Query"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "02:00:00"
+        },
+        "connectionSettings": {
+          "name": "WH_Pharma4All",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "31a736e4-406e-4dbb-8ee0-2354785b3f85",
+              "endpoint": "75u33zhx4yxezmshig2uxisjby-6bwgfn4vzqlu5fqrvpvj5fc4xa.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "b7626cf0-cc95-4e17-9611-abea9e945cb8"
+            },
+            "externalReferences": {
+              "connection": "b1fe9785-8b19-4c80-ac41-d1f8c9542026"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "SQL_Update_Watermark",
+        "dependsOn": [
+          {
+            "activity": "SQL_Insert_Only_New_FactSales",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

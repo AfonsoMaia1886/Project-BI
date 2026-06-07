@@ -1,0 +1,303 @@
+table PharmacySegmentation
+	lineageTag: 7e8b82a5-0496-4f41-a79e-891e84a4484b
+	sourceLineageTag: [dwh].[PharmacySegmentation]
+
+	column PharmacyID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: d4f25ebb-1f18-4aee-bed5-9d417149e29b
+		sourceLineageTag: PharmacyID
+		summarizeBy: none
+		sourceColumn: PharmacyID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PharmacyName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 1c1a6f40-2141-42d6-b71b-f402f619140b
+		sourceLineageTag: PharmacyName
+		summarizeBy: none
+		sourceColumn: PharmacyName
+
+		annotation SummarizationSetBy = Automatic
+
+	column LocationCode
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 16591b3b-634b-4b84-9fb5-b1a743dbdc77
+		sourceLineageTag: LocationCode
+		summarizeBy: none
+		sourceColumn: LocationCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column LocationName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: ddf7a080-b7b6-402b-89d1-e90378cc7a95
+		sourceLineageTag: LocationName
+		summarizeBy: none
+		sourceColumn: LocationName
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 8cef5ec2-d872-40a2-bec8-93144b817462
+		sourceLineageTag: District
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: e27adf3d-58e0-40da-ae01-ccb9d3f9e381
+		sourceLineageTag: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalSalesAmount
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 3b5558ac-ffaa-4aab-991f-d5f129a4eb5a
+		sourceLineageTag: TotalSalesAmount
+		summarizeBy: sum
+		sourceColumn: TotalSalesAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalQuantity
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 93f8c990-5b0e-4348-b9a1-0bcb4bd97362
+		sourceLineageTag: TotalQuantity
+		summarizeBy: sum
+		sourceColumn: TotalQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumberOfTransactions
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 9684423f-14b2-45a1-8c65-d5a223468283
+		sourceLineageTag: NumberOfTransactions
+		summarizeBy: none
+		sourceColumn: NumberOfTransactions
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column AvgTransactionAmount
+		dataType: double
+		sourceProviderType: float
+		lineageTag: af5f7249-b174-4f43-9d71-18fb80bec3aa
+		sourceLineageTag: AvgTransactionAmount
+		summarizeBy: none
+		sourceColumn: AvgTransactionAmount
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ProductVariety
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 6f9a5425-2c65-488a-bc0d-4f50115625bb
+		sourceLineageTag: ProductVariety
+		summarizeBy: none
+		sourceColumn: ProductVariety
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column ManufacturerVariety
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: eefae7e4-fd0c-46b6-b5f7-249855fd9501
+		sourceLineageTag: ManufacturerVariety
+		summarizeBy: none
+		sourceColumn: ManufacturerVariety
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column BrandVariety
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 6ff6d410-eb00-4173-869f-7776b97bb5ed
+		sourceLineageTag: BrandVariety
+		summarizeBy: none
+		sourceColumn: BrandVariety
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column MonthlySalesIntensity
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 374ff9c2-7d20-4e73-bae1-b326884af66a
+		sourceLineageTag: MonthlySalesIntensity
+		summarizeBy: none
+		sourceColumn: MonthlySalesIntensity
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BrandedSalesShare
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 1d7ef411-cd43-40cb-98c8-348dccfa7b1e
+		sourceLineageTag: BrandedSalesShare
+		summarizeBy: none
+		sourceColumn: BrandedSalesShare
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GenericSalesShare
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 62129214-88ee-443b-bc24-01f87871c183
+		sourceLineageTag: GenericSalesShare
+		summarizeBy: none
+		sourceColumn: GenericSalesShare
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RecencyDays
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: aaa2d8f9-9f31-40a7-a887-9649b3040ba4
+		sourceLineageTag: RecencyDays
+		summarizeBy: none
+		sourceColumn: RecencyDays
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column ClusterID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: e83c36e9-75eb-450f-a109-40b5ee0e3b18
+		sourceLineageTag: ClusterID
+		summarizeBy: none
+		sourceColumn: ClusterID
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column SegmentRank
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: e4866655-89c2-440e-8815-21ae11157e4b
+		sourceLineageTag: SegmentRank
+		summarizeBy: none
+		sourceColumn: SegmentRank
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column SegmentLabel
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 0943ddac-294d-4d69-83e0-0920ffe5816a
+		sourceLineageTag: SegmentLabel
+		summarizeBy: none
+		sourceColumn: SegmentLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	column SegmentDescription
+		dataType: string
+		sourceProviderType: varchar(500)
+		lineageTag: 8c7f60d1-dadd-4653-9767-00f33663fd97
+		sourceLineageTag: SegmentDescription
+		summarizeBy: none
+		sourceColumn: SegmentDescription
+
+		annotation SummarizationSetBy = Automatic
+
+	column PCA1
+		dataType: double
+		sourceProviderType: float
+		lineageTag: fdcf0f54-77c3-4a97-8a2d-c384eb296b55
+		sourceLineageTag: PCA1
+		summarizeBy: none
+		sourceColumn: PCA1
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PCA2
+		dataType: double
+		sourceProviderType: float
+		lineageTag: fa29acc8-ccca-431e-bca7-c0358d0b32c5
+		sourceLineageTag: PCA2
+		summarizeBy: none
+		sourceColumn: PCA2
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ModelRunDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: bea0defd-bf77-48aa-8b36-31c201264cbc
+		sourceLineageTag: ModelRunDate
+		summarizeBy: none
+		sourceColumn: ModelRunDate
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PharmacySegmentation = entity
+		mode: directLake
+		source
+			entityName: PharmacySegmentation
+			schemaName: dwh
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

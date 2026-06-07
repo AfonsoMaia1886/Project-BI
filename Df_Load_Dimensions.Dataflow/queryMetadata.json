@@ -1,0 +1,107 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "Df_Load_Dimensions",
+  "queryGroups": [],
+  "documentLocale": "pt-BR",
+  "queriesMetadata": {
+    "DimPOS": {
+      "queryId": "79c0f97a-2408-49f5-ab08-c68144df9527",
+      "queryName": "DimPOS"
+    },
+    "DefaultDestination": {
+      "queryId": "862d793c-e862-449b-93bc-d8c2ec12aeee",
+      "queryName": "DefaultDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DimOperator": {
+      "queryId": "3a822740-6669-4152-bda1-40b5b1350545",
+      "queryName": "DimOperator"
+    },
+    "DimLocation": {
+      "queryId": "5fac60b1-ca1b-49a7-921f-a53d7b1819e8",
+      "queryName": "DimLocation"
+    },
+    "Pharmacies A csv": {
+      "queryId": "2051a266-94a1-44f7-89ec-c72d6c92d65a",
+      "queryName": "Pharmacies A csv"
+    },
+    "Pharmacies B csv": {
+      "queryId": "0ef21e13-8293-4d4e-9ebe-f7fcb32e50ad",
+      "queryName": "Pharmacies B csv"
+    },
+    "DimPharmacy": {
+      "queryId": "b0fc7801-d5b4-4fda-8bf8-54d9fb94eaef",
+      "queryName": "DimPharmacy"
+    },
+    "DimProduct": {
+      "queryId": "b89c2ec5-be2c-41b3-9429-97593b0499e6",
+      "queryName": "DimProduct"
+    },
+    "DimDate": {
+      "queryId": "adc9b98b-4983-4349-bda2-dd2e77874f28",
+      "queryName": "DimDate"
+    },
+    "DimTime": {
+      "queryId": "3646760f-3770-4c98-8b60-f0a41a9a549c",
+      "queryName": "DimTime"
+    },
+    "DimProduct_DataDestination": {
+      "queryId": "b97a2bdd-19d3-4bf2-953d-049e106e7af9",
+      "queryName": "DimProduct_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DimTime_DataDestination": {
+      "queryId": "1e3a8db8-cf45-448a-95c5-e1a6c27a24eb",
+      "queryName": "DimTime_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DimDate_DataDestination": {
+      "queryId": "52df2523-0ac5-4e0c-b308-7a181eeaddff",
+      "queryName": "DimDate_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DimPOS_DataDestination": {
+      "queryId": "e817ad44-1d1c-46e9-ab6d-7650363807f6",
+      "queryName": "DimPOS_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DimOperator_DataDestination": {
+      "queryId": "9eccb5cf-d5bc-45e3-be52-dba71ee35cee",
+      "queryName": "DimOperator_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DimLocation_DataDestination": {
+      "queryId": "cff4a10d-8b74-470c-9d8f-3552b43f5636",
+      "queryName": "DimLocation_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "DimPharmacy_DataDestination": {
+      "queryId": "7d1d5977-f0d3-4616-81e1-cddee4c9d9e7",
+      "queryName": "DimPharmacy_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"abb8825f-5935-41f4-b7c5-f62d6aaed810\",\"DatasourceId\":\"45e2f341-2f4f-4046-be84-ca65710d915c\"}"
+    },
+    {
+      "path": "Warehouse",
+      "kind": "Warehouse",
+      "connectionId": "{\"ClusterId\":\"abb8825f-5935-41f4-b7c5-f62d6aaed810\",\"DatasourceId\":\"b1fe9785-8b19-4c80-ac41-d1f8c9542026\"}"
+    }
+  ]
+}

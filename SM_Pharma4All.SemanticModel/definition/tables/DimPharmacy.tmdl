@@ -1,0 +1,53 @@
+table DimPharmacy
+	lineageTag: 2385193e-aac0-4f6d-bdfc-ba4d570c6f7e
+	sourceLineageTag: [dwh].[DimPharmacy]
+
+	column SK_Pharmacy
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 197c29ac-ad39-4d69-94b9-2b305d98f054
+		sourceLineageTag: SK_Pharmacy
+		summarizeBy: none
+		sourceColumn: SK_Pharmacy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PharmacyName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: f3f31895-4ec1-4e64-8cff-5a165895e4ec
+		sourceLineageTag: PharmacyName
+		summarizeBy: none
+		sourceColumn: PharmacyName
+
+		annotation SummarizationSetBy = Automatic
+
+	column FK_Location
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 2f336a1e-5c49-40d4-b771-cce1c6b61cb2
+		sourceLineageTag: FK_Location
+		summarizeBy: none
+		sourceColumn: FK_Location
+
+		changedProperty = SummarizeBy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	partition DimPharmacy = entity
+		mode: directLake
+		source
+			entityName: DimPharmacy
+			schemaName: dwh
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

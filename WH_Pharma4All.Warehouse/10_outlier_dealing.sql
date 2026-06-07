@@ -1,0 +1,2 @@
+DELETE FROM dwh.FactSales
+WHERE PK_SaleID = 1048572;

@@ -1,0 +1,200 @@
+table DimDate
+	lineageTag: ce4187c4-be36-4a98-85b7-e7cc5af33e39
+	sourceLineageTag: [dwh].[DimDate]
+	dataCategory: Time
+
+	column SK_Date
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 503244a1-8900-4f4c-b6ad-936e9d627e15
+		sourceLineageTag: SK_Date
+		summarizeBy: none
+		sourceColumn: SK_Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FullDate
+		dataType: dateTime
+		isKey
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: dc6087e5-3c73-4291-89fc-87f6ceeb0875
+		sourceLineageTag: FullDate
+		summarizeBy: none
+		sourceColumn: FullDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		sourceProviderType: smallint
+		lineageTag: edfc1c55-7c7e-45a9-9f9a-6d2e7571a558
+		sourceLineageTag: Day
+		summarizeBy: none
+		sourceColumn: Day
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column DayName
+		dataType: string
+		sourceProviderType: varchar(10)
+		lineageTag: 5d8fb62d-5922-4707-9fe6-426aa1a876f9
+		sourceLineageTag: DayName
+		summarizeBy: none
+		sourceColumn: DayName
+		sortByColumn: Day
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekNumber
+		dataType: int64
+		formatString: 0
+		sourceProviderType: smallint
+		lineageTag: 956fc378-bf72-4982-b5d8-ba7e66b91a2a
+		sourceLineageTag: WeekNumber
+		summarizeBy: none
+		sourceColumn: WeekNumber
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column Month
+		dataType: int64
+		formatString: 0
+		sourceProviderType: smallint
+		lineageTag: 6a438181-6487-4ba5-bc05-13f9db76c28b
+		sourceLineageTag: Month
+		summarizeBy: none
+		sourceColumn: Month
+
+		changedProperty = SortByColumn
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column MonthName
+		dataType: string
+		sourceProviderType: varchar(10)
+		lineageTag: b75cf067-fcb5-4f99-ba53-ed07c336b9cd
+		sourceLineageTag: MonthName
+		summarizeBy: none
+		sourceColumn: MonthName
+		sortByColumn: Month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		sourceProviderType: smallint
+		lineageTag: 17a298bc-ca42-41dd-8d3a-0d79ffd52bde
+		sourceLineageTag: Quarter
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column QuarterName
+		dataType: string
+		sourceProviderType: varchar(10)
+		lineageTag: 7a27b841-a588-4a65-8283-99ce5b7cc082
+		sourceLineageTag: QuarterName
+		summarizeBy: none
+		sourceColumn: QuarterName
+		sortByColumn: Quarter
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		sourceProviderType: smallint
+		lineageTag: f3ec8a3b-d873-41fb-b7bb-1b44084afadc
+		sourceLineageTag: Year
+		summarizeBy: none
+		sourceColumn: Year
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column IsWeekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: e4bb2de1-e218-4e9b-afb2-4724fd308754
+		sourceLineageTag: IsWeekend
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsHoliday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: e5663618-9b51-45ab-ab3c-9d1de6112504
+		sourceLineageTag: IsHoliday
+		summarizeBy: none
+		sourceColumn: IsHoliday
+
+		annotation SummarizationSetBy = Automatic
+
+	column YTDFlag
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 6ddc4ffb-8954-498b-b12d-bce5a857c748
+		sourceLineageTag: YTDFlag
+		summarizeBy: none
+		sourceColumn: YTDFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy DataHierarchy
+		lineageTag: 1cc5a0ec-afdc-42d9-a58e-dfc65ff2350b
+
+		level Year
+			lineageTag: ba58c538-2f5a-48d6-b446-078d545abe9d
+			column: Year
+
+		level QuarterName
+			lineageTag: 3a302618-6b71-423c-9fcd-935b9ec0aa23
+			column: QuarterName
+
+		level MonthName
+			lineageTag: 7dd7d92c-5b36-4257-99ee-089b2410949d
+			column: MonthName
+
+		level FullDate
+			lineageTag: f451ad75-df37-4682-b4c1-c2af209ad7d5
+			column: FullDate
+
+		changedProperty = Name
+
+	partition DimDate = entity
+		mode: directLake
+		source
+			entityName: DimDate
+			schemaName: dwh
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

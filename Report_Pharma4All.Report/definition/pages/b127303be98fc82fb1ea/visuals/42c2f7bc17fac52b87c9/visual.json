@@ -1,0 +1,67 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "42c2f7bc17fac52b87c9",
+  "position": {
+    "x": 640,
+    "y": 475,
+    "z": 5000,
+    "height": 245,
+    "width": 320,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PharmacySegmentation"
+                        }
+                      },
+                      "Property": "BrandedSalesShare"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(PharmacySegmentation.BrandedSalesShare)",
+              "nativeQueryRef": "Average of BrandedSalesShare",
+              "format": "0.00 %;-0.00 %;0.00 %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "PharmacySegmentation"
+                      }
+                    },
+                    "Property": "BrandedSalesShare"
+                  }
+                },
+                "Function": 1
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

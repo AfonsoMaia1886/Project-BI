@@ -1,0 +1,37 @@
+relationship 9b5da7d8-40f6-f845-d746-cfcea26cd80a
+	fromColumn: FactSales.FK_Date
+	toColumn: DimDate.SK_Date
+
+relationship 0a22bcb8-253a-6f48-7e71-f34f7962a120
+	fromColumn: FactSales.FK_Time
+	toColumn: DimTime.SK_Time
+
+relationship 4a9c8b04-22cb-71e7-d6f8-90e8f67eafd9
+	fromColumn: FactSales.FK_Product
+	toColumn: DimProduct.SK_Product
+
+relationship 206df1dc-7fe9-22b8-f235-86c22bc47697
+	fromColumn: FactSales.FK_Pharmacy
+	toColumn: DimPharmacy.SK_Pharmacy
+
+relationship ac9d25d2-5caa-53f0-bee8-d44557d3b82b
+	fromColumn: FactSales.FK_Location
+	toColumn: DimLocation.SK_Location
+
+relationship 2eb5c164-34dc-63a0-bd7c-efd626eaef8e
+	fromColumn: FactSales.FK_Operator
+	toColumn: DimOperator.SK_Operator
+
+relationship b59d1276-f79e-d605-059e-c86a7cade657
+	fromColumn: FactSales.FK_POS
+	toColumn: DimPOS.SK_POS
+
+relationship 0ce3e979-5035-6275-8c76-1270c4583803
+	crossFilteringBehavior: bothDirections
+	fromColumn: PharmacySegmentation.PharmacyID
+	toColumn: DimPharmacy.SK_Pharmacy
+
+relationship b38adf8e-73ec-059c-3565-751984b182f6
+	fromColumn: DimDate.FullDate
+	toColumn: DateSlicer.FullDate
+

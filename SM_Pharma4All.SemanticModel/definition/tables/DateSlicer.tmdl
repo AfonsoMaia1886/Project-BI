@@ -1,0 +1,24 @@
+table DateSlicer
+	lineageTag: f3758f20-ea8a-4672-b1a6-05bc4b13c8c2
+	sourceLineageTag: [dwh].[DateSlicer]
+
+	column FullDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 5ecc4ed7-6b82-4f37-ae4a-74299b9f592f
+		sourceLineageTag: FullDate
+		summarizeBy: none
+		sourceColumn: FullDate
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DateSlicer = entity
+		mode: directLake
+		source
+			entityName: DateSlicer
+			schemaName: dwh
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

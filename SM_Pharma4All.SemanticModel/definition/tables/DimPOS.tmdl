@@ -1,0 +1,47 @@
+table DimPOS
+	lineageTag: 1de27620-7373-420f-80a8-1d575f9f644b
+	sourceLineageTag: [dwh].[DimPOS]
+
+	column SK_POS
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 5435d5c6-3dfd-4180-af2d-d11a2cd5d32b
+		sourceLineageTag: SK_POS
+		summarizeBy: none
+		sourceColumn: SK_POS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column POSName
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 7d59aaf4-a2db-4d6c-98ef-5b2a2b70acf2
+		sourceLineageTag: POSName
+		summarizeBy: none
+		sourceColumn: POSName
+
+		annotation SummarizationSetBy = Automatic
+
+	column POSEmail
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 85985672-11e3-4f0c-8026-6322be19de42
+		sourceLineageTag: POSEmail
+		summarizeBy: none
+		sourceColumn: POSEmail
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimPOS = entity
+		mode: directLake
+		source
+			entityName: DimPOS
+			schemaName: dwh
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

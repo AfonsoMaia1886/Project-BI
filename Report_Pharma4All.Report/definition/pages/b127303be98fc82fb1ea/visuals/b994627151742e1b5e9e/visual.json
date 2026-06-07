@@ -1,0 +1,123 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "b994627151742e1b5e9e",
+  "position": {
+    "x": 640,
+    "y": 150,
+    "z": 1000,
+    "height": 325,
+    "width": 640,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "lineClusteredColumnComboChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PharmacySegmentation"
+                    }
+                  },
+                  "Property": "SegmentLabel"
+                }
+              },
+              "queryRef": "PharmacySegmentation.SegmentLabel",
+              "nativeQueryRef": "SegmentLabel",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PharmacySegmentation"
+                        }
+                      },
+                      "Property": "MonthlySalesIntensity"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(PharmacySegmentation.MonthlySalesIntensity)",
+              "nativeQueryRef": "Average of MonthlySalesIntensity"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PharmacySegmentation"
+                        }
+                      },
+                      "Property": "AvgTransactionAmount"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(PharmacySegmentation.AvgTransactionAmount)",
+              "nativeQueryRef": "Average of AvgTransactionAmount"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "PharmacySegmentation"
+                      }
+                    },
+                    "Property": "MonthlySalesIntensity"
+                  }
+                },
+                "Function": 1
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
