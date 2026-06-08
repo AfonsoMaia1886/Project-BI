@@ -1,6 +1,6 @@
 # Pharma4All - Data Warehousing & BI Project
 
-End-to-end Data Warehousing and Business Intelligence solution built on **Microsoft Fabric** for Pharma4All, a pharmaceutical company case study. The project covers the full data pipeline — from ingestion and transformation to predictive analytics and reporting.
+End-to-end Data Warehousing and Business Intelligence solution built on **Microsoft Fabric** for Pharma4All, a pharmaceutical company case study. The project covers the full data pipeline - from ingestion and transformation to predictive analytics and reporting.
 
 📄 **[Full report available here](./Report_Pharma4All.pdf)**
 
